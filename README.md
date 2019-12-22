@@ -44,7 +44,7 @@ As root:
 
 (This is likely to be unstable).
 
-	$ git clone https://github.com/Vimru/taps
+	$ git clone https://github.com/Vimru/taps && cd taps
 	$ pip install --user .
 	$ ln -s ~/.local/bin/taps /usr/bin/taps
 
