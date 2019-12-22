@@ -1,6 +1,6 @@
-from config import *
-from text_format import genColorText
-import pacman
+from taps.config import *
+from taps.text_format import genColorText
+import taps.pacman as pacman
 import re
 import colorful
 

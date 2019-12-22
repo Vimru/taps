@@ -1,5 +1,5 @@
-from config import *
-from text_format import printColor
+from taps.config import *
+from taps.text_format import printColor
 import subprocess
 
 def pacmanCommand(cmd):

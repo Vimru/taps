@@ -1,5 +1,5 @@
-from text_format import printColor
-from config import *
+from taps.text_format import printColor
+from taps.config import *
 import requests
 
 def fetchSecJson(addr):

@@ -26,6 +26,28 @@ taps aims to make it easier to see the vulnerability status & details for your p
    - query mode takes around 500 - 1000ms
  - Show as little or as much information as you need
 
+## Installation
+**Stable release with pip:**
+
+As a non-root user:
+
+	$ pip install --user taps
+	$ sudo ln -s ~/.local/bin/taps /usr/bin/taps
+
+As root:
+
+(This is a security risk as you are running `setup.py` as root).
+
+	# pip install taps
+
+**Development version:**
+
+(This is likely to be unstable).
+
+	$ git clone https://github.com/Vimru/taps
+	$ pip install --user .
+	$ ln -s ~/.local/bin/taps /usr/bin/taps
+
 ## Usage
 	$ taps -h
 	usage: taps.py [-h] [-r] [-n NUM_OUTPUT] [--hide HIDE] [-q] [-c] [-v] [-m] [-o] {audit,query} ...

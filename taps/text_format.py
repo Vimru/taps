@@ -1,5 +1,5 @@
 import colorful
-import config
+import taps.config as config
 
 def genColorText(text, color):
     # Check color is enabled.

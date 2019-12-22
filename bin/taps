@@ -1,14 +1,16 @@
+#!/usr/bin/env python
+
 import os
 if os.getuid() == 0:
     print("Don't run taps as root!\ntaps will invoke sudo if required.")
     exit()
 
-from text_format import printColor
-import config
-from config import *
-from attribute_format import genString
-from json_fetch import fetchSecJson
-import pacman
+from taps.text_format import printColor
+import taps.config as config
+from taps.config import *
+from taps.attribute_format import genString
+from taps.json_fetch import fetchSecJson
+import taps.pacman as pacman
 import subprocess
 import re
 import argparse
