@@ -1,0 +1,157 @@
+import os
+if os.getuid() == 0:
+    print("Don't run taps as root!\ntaps will invoke sudo if required.")
+    exit()
+
+from text_format import printColor
+import config
+from config import *
+from attribute_format import genString
+from json_fetch import fetchSecJson
+import pacman
+import subprocess
+import re
+import argparse
+
+parser = argparse.ArgumentParser(description="Find your vulnerable packages, information from security.archlinux.org, and more!")
+
+subparsers = parser.add_subparsers(title="Available modes", dest="mode")
+subparsers.required = True
+
+# Both modes.
+parser.add_argument("-r", "--required", action="store_true", help="Show the 'required by' attribute of the packages (vulnerable dependencies)")
+parser.add_argument("-n", "--num-output", type=int, action="store", help="The number of vulnerability items to print out")
+parser.add_argument("--hide", action="store", help="The attributes to hide, separated by commas (no spaces).")
+parser.add_argument("-q", "--quiet", action="store_true", help="Only print package names.")
+parser.add_argument("-c", "--cve", action="store_true", help="Show CVE names and links. Use with -v for detailed information.")
+parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", help="Output information about specific versions and patches where possible. Use with -c for CVE descriptions and links to references for CVEs. WARNING: passing both -v and -c options will take significantly longer to process due to fetching individual CVE data.")
+parser.add_argument("-m", "--monochrome", action="store_true", help="Don't use colors.")
+parser.add_argument("-o", "--one-at-time", action="store_true", help="Show one item at a time, press enter to show next.")
+
+# Audit mode.
+parser_audit = subparsers.add_parser("audit", help="Identify any installed packages with vulnerabilities, determine if patches are available. Use -h for more information.", description="Show whether any installed packages have vulnerabilities and determine if patches are available. Versions are checked in case you haven't updated in a while and have missed security updates.")
+parser_audit.add_argument("-p", "--patched", action="store_true", help="Show only packages with available patch updates")
+parser_audit.add_argument("-s", "--skip-checks", action="store_true", help="Skip checks for available patches, will only check current vulnerabilities. This will increase the speed of audit mode, but could potentially miss vulnerabilities and can only be used safely after a -Syu upgrade.")
+
+# Query mode.
+parser_query = subparsers.add_parser("query", help="Query past and existing package vulnerabilities. Use -h for more information.", description="Show information for vulnerable (or fixed) packages from security.archlinux.org. Without any arguments, 'query' will show current vulnerabilities for all arch packages.")
+parser_query.add_argument("-p", "--packages", nargs="+", action="store", help="Package(s) to show vulnerabilities for.")
+parser_query.add_argument("-i", "--installed", dest="pacman_command", action="store_const", const=PACMAN_LOCAL_CMD, default=PACMAN_ALL_CMD, help="Only show vulnerabilities for installed packages.")
+parser_query.add_argument("-f", "--fixed", dest="arch_addr", action="store_const", const=ARCH_SEC_ADDR_ALL_JSON, default=ARCH_SEC_ADDR_JSON, help="Show fixed vulnerablities as well as current vulnerabilities.")
+args = parser.parse_args()
+
+# Disable colors.
+if args.monochrome:
+    config.COLOR = False
+
+# Create a new list of vuln_pkgs which has common items between pkgs and each vuln_item in vuln_pkgs.
+def makeListCommonItems(pkgs, vuln_pkgs):
+    common_vuln_pkgs = []
+    for vuln_item in vuln_pkgs:
+        if not set(pkgs).isdisjoint(vuln_item["packages"]):
+            common_vuln_pkgs.append(vuln_item)
+    return common_vuln_pkgs
+
+# Get packages from correct location with audit mode.
+if args.mode == "audit" and not args.skip_checks:
+    args.arch_addr = ARCH_SEC_ADDR_ALL_JSON
+elif args.mode == "audit" and args.skip_checks:
+    # If skipping version checks, we assume system up-to-date so only active vulns are necessary.
+    args.arch_addr = ARCH_SEC_ADDR_JSON
+
+# Get installed packages.
+installed_pkgs_versions = pacman.installedPackagesVersions()
+installed_pkgs_versions = list(filter(None, installed_pkgs_versions))
+installed_pkgs = {}
+for pkg in installed_pkgs_versions:
+    pkg = pkg.split()
+    installed_pkgs[pkg[0]] = pkg[1]
+
+# Get vulnerable package data.
+vuln_pkgs = fetchSecJson(args.arch_addr)
+
+# Hide attributes
+if args.hide:
+    for attribute in args.hide.split(","):
+        if attribute in ATTRIBUTES:
+            ATTRIBUTES.remove(attribute)
+
+# Audit mode.
+if args.mode == "audit":
+    args.pacman_command = PACMAN_LOCAL_CMD
+    # Add to ATTRIBUTES.
+    ATTRIBUTES.append("fixed")
+    tmp_vuln_pkgs = []
+    # Get versions of installed packages.
+    for vuln_group in vuln_pkgs:
+        for pkg in vuln_group["packages"]:
+            if pkg in installed_pkgs:
+                pkg_version = installed_pkgs[pkg]
+                if not args.patched and vuln_group["status"] == "Vulnerable":
+                    tmp_vuln_pkgs.append(vuln_group)
+                elif vuln_group["fixed"] and not args.skip_checks:
+                    # Check if vulnerability is fixed but installed version is still vulnerable.
+                    if pacman.vercmp(pkg_version, vuln_group["fixed"]) < 0:
+                        tmp_vuln_pkgs.append(vuln_group)
+    vuln_pkgs = tmp_vuln_pkgs
+else:
+    # Query mode.
+    # Make new vuln_pkgs (packages both requested and vulnerable).
+    if args.packages:
+        # Alert the user to an invalid requested package.
+        all_pkgs = pacman.allRepoPackages()
+        for pkg in args.packages:
+            if pkg not in all_pkgs:
+                printColor("Package '" + pkg + "' doesn't exist in official repositories.", AMBER)
+        vuln_pkgs = makeListCommonItems(args.packages, vuln_pkgs)
+
+    # Check if -i option is used.
+    if args.pacman_command == PACMAN_LOCAL_CMD:
+        # Make new vuln_pkgs (packages both vulnerable and installed).
+        vuln_pkgs = makeListCommonItems(installed_pkgs, vuln_pkgs)
+        
+# Remove last n vulnerability items.
+vuln_pkgs = vuln_pkgs[:args.num_output]
+
+# Show CVEs.
+if args.cve and args.verbose:
+    ATTRIBUTES.append("references")
+    # Create new ATTRIBUTES with CVE details for each vuln_item CVE. Create key to satify checks.
+    for vuln_item in vuln_pkgs:
+        vuln_item["references"] = "."
+        new_issues_dict = {}
+        for cve in vuln_item["issues"]:
+            # Fetch each CVE's details.
+            cve_data = fetchSecJson(ARCH_SEC_ADDR + cve + "/json")
+            new_issues_dict[cve] = {"description" : cve_data["description"],
+                                    "references" : cve_data["references"]}
+        vuln_item["issues"] = new_issues_dict
+elif args.cve:
+    ATTRIBUTES.append("issues")
+
+for vuln_item in vuln_pkgs:
+    # Output vulnerablity details.
+    if args.verbose:
+        if vuln_item["fixed"]:
+            status = "(fixed in " + vuln_item["fixed"] + ")"
+        else:
+            status = "(vulnerable)"
+    else:
+        status = ""
+    printColor(", ".join(vuln_item["packages"]) + " " + status, WHITE)
+    if not args.quiet:
+        # Print each attribute of the vulnerability item.
+        for attr in ATTRIBUTES:
+            string = genString(vuln_item, attr, installed_pkgs)
+            if string: print(string)
+
+        if args.required:
+            # Find "required by" packages. Create key to satisfy checks.
+            vuln_item["required by"] = "."
+            string = genString(vuln_item, "required by", args.pacman_command)
+            if string: print(string)
+        print()
+    if args.one_at_time:
+        input("Press enter for next...")
+        subprocess.run(["clear"])
+
