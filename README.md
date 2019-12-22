@@ -4,10 +4,10 @@
 taps aims to make it easier to see the vulnerability status & details for your packages, query packages for past vulnerabilities, and make official Arch security data easier to access.
 
  - [Features](#features)
+ - [Installation](#installation)
  - [Usage](https://github.com/Vimru/taps#usage)
  - [Examples, tips & tricks](#examples-tips--tricks)
  - [Dependencies](#dependencies)
- - [Installation](#installation)
  - [FAQ](#faq--possible-questions-about-why-taps-works-as-it-does)
  - [False positives & false negatives](#false-positives--false-negatives)
 
@@ -312,9 +312,6 @@ Where possible, taps will show links (like above) for AVGs, advisories, tickets 
  - re
  - argparse
  - requests
- 
-## Installation
-TODO
 
 ## FAQ & possible questions about why taps works as it does
 
