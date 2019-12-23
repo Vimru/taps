@@ -313,12 +313,9 @@ Where possible, taps will show links (like above) for AVGs, advisories, tickets 
 ## Dependencies
 **Python modules:**
 
+PyPI packages:
+
  - [colorful](https://pypi.org/project/colorful/)
- - os
- - subprocess
- - re
- - argparse
- - requests
 
 ## FAQ & possible questions about why taps works as it does
 
