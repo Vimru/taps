@@ -15,7 +15,7 @@ def genString(vuln_item, attribute, optionalArg):
             value = "\n\t\t       ".join([ARCH_SEC_ADDR + ASA for ASA in vuln_item[attribute]])
         elif attribute == "name":
             # Create URL and output 'group' over 'name'.
-            value = vuln_item["name"] + " (" + ARCH_SEC_ADDR + vuln_item[attribute]
+            value = vuln_item["name"] + " (" + ARCH_SEC_ADDR + vuln_item[attribute] + ")"
             attribute = "group"
         elif attribute == "fixed":
             color = AMBER
