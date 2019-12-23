@@ -19,6 +19,10 @@ setuptools.setup(
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
     ],
     python_requires = ">=3.6",
+    include_package_data = True,
+    package_data = {
+        "taps": ["*.conf"]
+    },
     license = "GPLv3",
     scripts = ["bin/taps"],
 )

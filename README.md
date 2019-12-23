@@ -49,6 +49,12 @@ The version number has 'dev' appended to make you aware you are not running a st
 	$ pip install --user .
 	$ ln -s ~/.local/bin/taps /usr/bin/taps
 
+### Config file
+
+You can make a config file by copying the template file in the repository (taps.conf) to /etc/taps.conf with the appropriate read permissions. The individual colors have to be valid names for use with 'colorful'.
+
+If you don't make a config file, taps will use its default settings from the template config file.
+
 ## Usage
 	$ taps -h
 	usage: taps.py [-h] [-r] [-n NUM_OUTPUT] [--hide HIDE] [-q] [-c] [-v] [-m] [-o] {audit,query} ...

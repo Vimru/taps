@@ -1,11 +1,12 @@
 from taps.config import *
 from taps.text_format import genColorText
 import taps.pacman as pacman
+from taps import user_config
 import re
 import colorful
 
 def genString(vuln_item, attribute, optionalArg):
-    color = GREEN
+    color = user_config["COLORS"]["Green"]
     if vuln_item[attribute]:
         if attribute == "ticket":
             # Create URL.
@@ -18,7 +19,7 @@ def genString(vuln_item, attribute, optionalArg):
             value = vuln_item["name"] + " (" + ARCH_SEC_ADDR + vuln_item[attribute] + ")"
             attribute = "group"
         elif attribute == "fixed":
-            color = AMBER
+            color = user_config["COLORS"]["Amber"]
             installed_pkgs = optionalArg
             # Package has patch. Find the installed package.
             for pkg in vuln_item["packages"]:
@@ -29,7 +30,7 @@ def genString(vuln_item, attribute, optionalArg):
             # Tabs and whitespace keep each CVE item inline.
             value = "\n\t\t       ".join([CVE + " (" + ARCH_SEC_ADDR + CVE + ")" for CVE in vuln_item[attribute]])
         elif attribute == "references":
-            color = WHITE
+            color = user_config["COLORS"]["White"]
             # Show CVEs, references and descriptions for each CVE. Requires to build a nested => output.
             output_lines = []
             for cve in vuln_item["issues"]:
@@ -41,7 +42,7 @@ def genString(vuln_item, attribute, optionalArg):
             attribute = "issues"
         elif attribute == "required by":
             # Show the required by attribute of a package. Requires to build a nested => output.
-            color = WHITE
+            color = user_config["COLORS"]["White"]
             pacman_cmd = optionalArg
             value = ""
             for pkg in vuln_item["packages"]:

@@ -1,10 +1,14 @@
 import colorful
-import taps.config as config
+from taps import user_config
 
 def genColorText(text, color):
     # Check color is enabled.
-    if config.COLOR:
-        return getattr(colorful, color)(text)
+    if user_config["COLORS"]["COLOR"] == "yes":
+        try:
+            return getattr(colorful, color)(text)
+        except:
+            print("Invalid color: " + str(color))
+            return text
     return text
 
 def printColor(text, color):

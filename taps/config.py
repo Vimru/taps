@@ -11,9 +11,4 @@ PACMAN_VERCMP_CMD = "vercmp"
 REGEX = "(?<=Required By     : )(.+)"
 ATTRIBUTES = ["name", "affected", "severity", "type", "ticket", "advisories"]
 
-# Colors.
-COLOR = True
-WHITE = "white"
-AMBER = "orange"
-GREEN = "green"
-RED = "red"
+USER_CONFIG = "/etc/taps.conf"

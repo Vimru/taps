@@ -14,6 +14,7 @@ import taps.pacman as pacman
 import subprocess
 import re
 import argparse
+from taps import user_config
 
 parser = argparse.ArgumentParser(description="Find your vulnerable packages, information from security.archlinux.org, and more!")
 
@@ -44,7 +45,7 @@ args = parser.parse_args()
 
 # Disable colors.
 if args.monochrome:
-    config.COLOR = False
+    user_config["COLORS"]["color"] = "no"
 
 # Create a new list of vuln_pkgs which has common items between pkgs and each vuln_item in vuln_pkgs.
 def makeListCommonItems(pkgs, vuln_pkgs):
@@ -104,7 +105,7 @@ else:
         all_pkgs = pacman.allRepoPackages()
         for pkg in args.packages:
             if pkg not in all_pkgs:
-                printColor("Package '" + pkg + "' doesn't exist in official repositories.", AMBER)
+                printColor("Package '" + pkg + "' doesn't exist in official repositories.", user_config["COLORS"]["amber"])
         vuln_pkgs = makeListCommonItems(args.packages, vuln_pkgs)
 
     # Check if -i option is used.
@@ -140,7 +141,7 @@ for vuln_item in vuln_pkgs:
             status = "(vulnerable)"
     else:
         status = ""
-    printColor(", ".join(vuln_item["packages"]) + " " + status, WHITE)
+    printColor(", ".join(vuln_item["packages"]) + " " + status, user_config["COLORS"]["white"])
     if not args.quiet:
         # Print each attribute of the vulnerability item.
         for attr in ATTRIBUTES:
