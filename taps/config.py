@@ -12,4 +12,4 @@ REGEX = "(?<=Required By     : )(.+)"
 ATTRIBUTES = ["name", "affected", "severity", "type", "ticket", "advisories"]
 
 USER_CONFIG = "/etc/taps.conf"
-VERSION = "0.0.1.dev0"
+VERSION = "0.1.0"
