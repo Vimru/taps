@@ -43,7 +43,6 @@ As root:
 **Development version:**
 
 (This is an unreleasable version likely to be unstable).
-The version number has 'dev' appended to make you aware you are not running a stable release.
 
 	$ git clone https://github.com/Vimru/taps && cd taps
 	$ pip install --user .
