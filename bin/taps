@@ -30,6 +30,7 @@ parser.add_argument("-c", "--cve", action="store_true", help="Show CVE names and
 parser.add_argument("-v", "--verbose", dest="verbose", action="store_true", help="Output information about specific versions and patches where possible. Use with -c for CVE descriptions and links to references for CVEs. WARNING: passing both -v and -c options will take significantly longer to process due to fetching individual CVE data.")
 parser.add_argument("-m", "--monochrome", action="store_true", help="Don't use colors.")
 parser.add_argument("-o", "--one-at-time", action="store_true", help="Show one item at a time, press enter to show next.")
+parser.add_argument("-V", "--version", action="version", version="taps " + VERSION)
 
 # Audit mode.
 parser_audit = subparsers.add_parser("audit", help="Identify any installed packages with vulnerabilities, determine if patches are available. Use -h for more information.", description="Show whether any installed packages have vulnerabilities and determine if patches are available. Versions are checked in case you haven't updated in a while and have missed security updates.")
