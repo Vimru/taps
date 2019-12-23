@@ -5,7 +5,7 @@ taps aims to make it easier to see the vulnerability status & details for your p
 
  - [Features](#features)
  - [Installation](#installation)
- - [Usage](https://github.com/Vimru/taps#usage)
+ - [Usage](#usage)
  - [Examples, tips & tricks](#examples-tips--tricks)
  - [Dependencies](#dependencies)
  - [FAQ](#faq--possible-questions-about-why-taps-works-as-it-does)
@@ -315,6 +315,7 @@ Where possible, taps will show links (like above) for AVGs, advisories, tickets 
 PyPI packages:
 
  - [colorful](https://pypi.org/project/colorful/)
+ - [setuptools](https://pypi.org/project/setuptools/)
 
 ## FAQ & possible questions about why taps works as it does
 

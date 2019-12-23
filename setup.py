@@ -12,7 +12,8 @@ setuptools.setup(
     long_description_content_type = "text/markdown",
     url = "https://github.com/Vimru/taps",
     install_requires = [
-        "colorful"
+        "colorful",
+        "setuptools"
     ],
     classifiers = [
         "Programming Language :: Python :: 3",
