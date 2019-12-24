@@ -1,5 +1,5 @@
 # taps
-### True arch package security
+### [true Arch package security](https://aur.archlinux.org/packages/taps/)
 
 taps aims to make it easier to see the vulnerability status & details for your packages, query packages for past vulnerabilities, and make official Arch security data easier to access.
 
@@ -27,7 +27,15 @@ taps aims to make it easier to see the vulnerability status & details for your p
  - Show as little or as much information as you need
 
 ## Installation
-**Stable release with pip:**
+**Stable release from AUR (recommended):**
+
+Use an AUR helper such as [yay](https://aur.archlinux.org/packages/yay/):
+
+	$ yay -S taps
+
+Or [install manually with makepkg](https://wiki.archlinux.org/index.php/Arch_User_Repository#Installing_packages)
+
+**Stable release from PyPI:**
 
 As a non-root user:
 
