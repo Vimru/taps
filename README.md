@@ -52,7 +52,7 @@ As root:
 
 You can make a config file by copying the template file in the repository (taps.conf) to /etc/taps.conf with the appropriate read permissions. The individual colors have to be valid names for use with 'colorful'.
 
-If you don't make a config file, taps will use its default settings from the template config file.
+If you don't make a config file or its contents cannot be interpreted, taps will use its default settings from the template config file.
 
 ## Usage
 	$ taps -h
