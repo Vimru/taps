@@ -3,7 +3,6 @@ from taps.text_format import genColorText
 import taps.pacman as pacman
 from taps import user_config
 import re
-import colorful
 
 def genString(vuln_item, attribute, optionalArg):
     color = user_config["COLORS"]["Green"]
