@@ -56,33 +56,32 @@ If you don't make a config file or its contents cannot be interpreted, taps will
 
 ## Usage
 	$ taps -h
-	usage: taps.py [-h] [-r] [-n NUM_OUTPUT] [--hide HIDE] [-q] [-c] [-v] [-m] [-o] {audit,query} ...
+	usage: taps [-h] [-r] [-n NUM_OUTPUT] [--hide HIDE] [-q] [-c] [-v] [-m] [-o] [-V] {audit,query} ...
 
 	Find your vulnerable packages, information from security.archlinux.org, and more!
 
 	optional arguments:
 	  -h, --help            show this help message and exit
-	  -r, --required        Show the 'required by' attribute of the packages (dependencies)
+	  -r, --required        Show the 'required by' attribute of the packages (vulnerable dependencies)
 	  -n NUM_OUTPUT, --num-output NUM_OUTPUT
 							The number of vulnerability items to print out
 	  --hide HIDE           The attributes to hide, separated by commas (no spaces).
 	  -q, --quiet           Only print package names.
 	  -c, --cve             Show CVE names and links. Use with -v for detailed information.
-	  -v, --verbose         Output information about specific versions where possible, CVE descriptions and links to
-				references for CVEs if -c option used. WARNING: passing both -v and -c options will take
-				significantly longer to process due to fetching individual CVE data.
+	  -v, --verbose         Output information about specific versions and patches where possible. Use with -c for CVE descriptions and links to references for CVEs. WARNING: passing both -v and -c options will take significantly longer to
+							process due to fetching individual CVE data.
 	  -m, --monochrome      Don't use colors.
 	  -o, --one-at-time     Show one item at a time, press enter to show next.
+	  -V, --version         show program's version number and exit
 
 	Available modes:
 	  {audit,query}
-		audit               Identify any installed packages with vulnerabilities, determine if patches are available.
-							Use -h for more information.
-		query               Query past and existing package vulnerabilities. Use -h for more information.<br>
+		audit               Identify any installed packages with vulnerabilities, determine if patches are available. Use -h for more information.
+		query               Query past and existing package vulnerabilities. Use -h for more information.
 <br>
 
 	$ taps audit -h
-	usage: taps.py audit [-h] [-p]
+	usage: taps audit [-h] [-p]
 
 	Show whether any installed packages have vulnerabilities and determine if
 	patches are available. Versions are checked in case you haven't updated in a
@@ -97,7 +96,7 @@ If you don't make a config file or its contents cannot be interpreted, taps will
 <br>
 	 
 	$ taps query -h
-	usage: taps.py query [-h] [-p PACKAGES [PACKAGES ...]] [-i] [-f]
+	usage: taps query [-h] [-p PACKAGES [PACKAGES ...]] [-i] [-f]
 
 	Show information for vulnerable (or fixed) packages from
 	security.archlinux.org. Without any arguments, 'query' will show current
