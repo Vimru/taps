@@ -6,14 +6,15 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name = "taps",
     packages = setuptools.find_packages(),
-    version = "1.0.0",
+    version = "1.0.1",
     description = "True Arch package security - audit and query packages",
     long_description = long_description,
     long_description_content_type = "text/markdown",
     url = "https://github.com/Vimru/taps",
     install_requires = [
         "colorful",
-        "setuptools"
+        "setuptools",
+        "requests"
     ],
     classifiers = [
         "Programming Language :: Python :: 3",
