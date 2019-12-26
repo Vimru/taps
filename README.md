@@ -37,6 +37,8 @@ Or [install manually with makepkg](https://wiki.archlinux.org/index.php/Arch_Use
 
 **Stable release from PyPI:**
 
+`pipenv` is the preferred method to avoid dependency issues, however `pip` *can* be used: 
+
 As a non-root user:
 
 	$ pip install --user taps
