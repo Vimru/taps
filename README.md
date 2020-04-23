@@ -330,11 +330,11 @@ PyPI packages:
 
 **Why is audit mode slower than query mode?**
 
-In order for audit mode to reliably determine if patches are available (an installed package version is older than the patched version), `vercmp` has to be used for many packages which is not particularly efficient. Libraries do exist for this such as [cmp_version](https://pypi.org/project/cmp_version/) and [rpm-vercmp](https://pypi.org/project/rpm-vercmp/), however they are unable to deal with some unusual version number cases, such as comparing 3.1.3pre1-1 with 3.1.3-1 and 1:3.34.0-2 with 3.20.1-1. If these libraries were used, you could come across false positives.
+In order for audit mode to reliably determine if patches are available (an installed package version is older than the patched version), `vercmp` has to be used for many packages which takes a few 100ms extra time. 
 
 If you have just -Syu'd, you can probably skip these checks with -s for increased speed.
 
- - Default audit mode takes around 1s - 3s
+ - Default audit mode takes around 1s
  - Audit mode with skipped checks takes around 500ms - 1000ms
 
 **Why is `pacman -Q` and `pacman -Qq` used when `pacman -Qn` would only list native packages and be more efficient?**

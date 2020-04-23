@@ -2,6 +2,7 @@ from taps.config import *
 from taps.text_format import printColor
 from taps import user_config
 import subprocess
+import pyalpm
 
 def pacmanCommand(cmd):
     try:
@@ -29,5 +30,5 @@ def allRepoPackages():
     return pacmanCommand(PACMAN_ALL_PKGS_CMD).split("\n")
 
 def vercmp(version1, version2):
-    return int(pacmanCommand(PACMAN_VERCMP_CMD + " " + version1 + " " + version2))
+    return int(pyalpm.vercmp(version1, version2))
 

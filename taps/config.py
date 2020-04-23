@@ -7,7 +7,6 @@ PACMAN_ALL_CMD = "pacman -Sii"
 PACMAN_INSTALLED_CMD = "pacman -Qq"     # Used to be pacman -Qnq
 PACMAN_INSTALLED_VER_CMD = "pacman -Q"  # Used to be pacman -Qn
 PACMAN_ALL_PKGS_CMD = "pacman -Ssq"
-PACMAN_VERCMP_CMD = "vercmp"
 REGEX = "(?<=Required By     : )(.+)"
 ATTRIBUTES = ["name", "affected", "severity", "type", "ticket", "advisories"]
 

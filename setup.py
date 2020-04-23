@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name = "taps",
     packages = setuptools.find_packages(),
-    version = "1.0.1",
+    version = "1.1.0",
     description = "True Arch package security - audit and query packages",
     long_description = long_description,
     long_description_content_type = "text/markdown",
@@ -14,7 +14,8 @@ setuptools.setup(
     install_requires = [
         "colorful",
         "setuptools",
-        "requests"
+        "requests",
+        "pyalpm"
     ],
     classifiers = [
         "Programming Language :: Python :: 3",
