@@ -330,7 +330,7 @@ PyPI packages:
 
 **Why is audit mode slower than query mode?**
 
-In order for audit mode to reliably determine if patches are available (an installed package version is older than the patched version), `vercmp` has to be used for many packages which takes a few 100ms extra time. 
+In order for audit mode to reliably determine if patches are available (an installed package version is older than the patched version), `vercmp` has to be used to compare many packages which takes a few 100ms extra time. 
 
 If you have just -Syu'd, you can probably skip these checks with -s for increased speed.
 
