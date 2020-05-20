@@ -22,7 +22,7 @@ taps aims to make it easier to see the vulnerability status & details for your p
  - Hide attributes you don't want to see
  - Optional color output
  - Simple, quick and easy to use
-   - [audit mode takes around 500ms - 1s](https://github.com/Vimru/taps/blob/master/README.md#faq--possible-questions-about-why-taps-works-as-it-does)
+   - [audit mode takes around 1s](https://github.com/Vimru/taps/blob/master/README.md#faq--possible-questions-about-why-taps-works-as-it-does)
    - query mode takes around 500 - 1000ms
  - Show as little or as much information as you need
 
